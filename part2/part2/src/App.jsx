@@ -1,16 +1,16 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', phone: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 },
-    { name: 'Martin Fowler', number: '24-11-5588763', id: 5 }
-  ]) 
+    useEffect(() => { 
+        axios.get('http://localhost:3001/persons')
+        .then(response => { setPersons(response.data) })
+    }, [])
+  ])
   const [name, setName] = useState('Type a name...')
   const [phone, setPhone] = useState('')
 
@@ -27,7 +27,7 @@ const App = () => {
     const personObject = {
       id: persons.length + 1,
       name: name,
-      phone: phone
+      number: phone
     }
     setPersons(persons.concat(personObject))
     setName('Type another name...')
@@ -35,7 +35,8 @@ const App = () => {
   }
 
   const [query, setQuery] = useState('')
-  const personsQuery = (query === '') ? persons 
+  const personsQuery = (persons[0] === undefined) ? Array(0)
+    : (query === '') ? persons 
     :  persons.filter(person => person.name.toLowerCase().includes(query.toLowerCase()))
 
   return (
