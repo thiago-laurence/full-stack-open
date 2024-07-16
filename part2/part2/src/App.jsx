@@ -3,6 +3,7 @@ import personsService from './services/persons'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -28,6 +29,10 @@ const App = () => {
             setPersons(persons.map(p => p.id !== person.id ? p : person))
             setName('')
             setNumber('')
+            setMessage({ ok: true, text: `The number of '${person.name}' was updated` })
+            setTimeout(() => {
+              setMessage({ ...message, ok: null })
+            }, 5000)
         })
       }
       return
@@ -42,6 +47,10 @@ const App = () => {
         setPersons(persons.concat(person))
         setName('')
         setNumber('')
+        setMessage({ ok: true, text: `Added '${person.name}'` })
+        setTimeout(() => {
+          setMessage({ ...message, ok: null })
+        }, 5000)
     })
   }
 
@@ -55,14 +64,19 @@ const App = () => {
     if (window.confirm(`Delete '${person.name}' ?`)) {
       personsService.remove(id)
         .then(person => {
-          setPersons(persons.filter(p => p.id !== person.id))
+          setMessage({ ok: true, text: `The person '${person.name}' has been eliminated` })
         })
         .catch(() => {
-          alert(`The person '${person.name}' was already removed from the server`)
-          setPersons(persons.filter(p => p.id !== person.id))
+          setMessage({ ok: false, text: `The person '${person.name}' was already removed from the server` })
         })
+      setPersons(persons.filter(p => p.id !== person.id))
+      setTimeout(() => {
+        setMessage({ ...message, ok: null })
+      }, 5000)
     }
   }
+
+  const [message, setMessage] = useState({ ok: null, text: '' })
 
   return (
     <div>
@@ -70,6 +84,7 @@ const App = () => {
       <Filter state={query} setState={setQuery} onChangeHandler={handleOnChange} />
 
       <h1>Add a new</h1>
+      <Notification message={message} />
       <PersonForm submitHandler={handleSubmit} name={name} number={number} setName={setName} setNumber={setNumber} onChangeHandler={handleOnChange} />
       
       <h2>Numbers</h2>
