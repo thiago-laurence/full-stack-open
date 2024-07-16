@@ -1,7 +1,7 @@
 const Filter = ({ state, setState, onChangeHandler }) => {
     return (
         <div>
-            Filter shown with <input value={state} placeholder='Search...' onChange={(event) => onChangeHandler(event, setState)} />
+            Filter shown with <input type="text" value={state} placeholder="Search..." onChange={(event) => onChangeHandler(event, setState)} />
         </div>
     )
 }
