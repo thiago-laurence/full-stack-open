@@ -63,7 +63,7 @@ const App = () => {
     const person = persons.find(p => p.id === id)
     if (window.confirm(`Delete '${person.name}' ?`)) {
       personsService.remove(id)
-        .then(person => {
+        .then(() => {
           setMessage({ ok: true, text: `The person '${person.name}' has been eliminated` })
         })
         .catch(() => {

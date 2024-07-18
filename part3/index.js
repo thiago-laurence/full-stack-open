@@ -1,19 +1,27 @@
 const express = require('express')
-const cors = require('cors')
 const app = express()
-app.use(express.json())
+
+app.use(express.static('dist'))
+
+const cors = require('cors')
 app.use(cors())
 
 const morgan = require('morgan')
 morgan.token('body', (req) => {
   return JSON.stringify(req.body)
 })
+
+app.use(express.json())
 app.use(morgan('tiny'))
 app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms :body', {
     skip: (req, res) => req.method !== 'POST'
   })
 )
+
+const unknownEndpoint = (request, response) => {
+  response.status(404).send({ error: 'unknown endpoint' })
+}
 
 const db = require('./db')
 const baseAPIUrl = '/api'
@@ -52,6 +60,13 @@ app.delete(`${baseAPIUrl}/persons/:id`, (request, response) => {
   response.status(204).end()
 })
 
+const generateId = () => {
+  const maxId = db.persons.length > 0
+    ? Math.max(...db.persons.map(n => n.id))
+    : 0
+  return maxId + 1
+}
+
 app.post(`${baseAPIUrl}/persons`, (request, response) => {
   const body = request.body
   if (!body.name || !body.number) {
@@ -66,7 +81,7 @@ app.post(`${baseAPIUrl}/persons`, (request, response) => {
   }
 
   const person = {
-    id: Math.floor(Math.random() * 1000),
+    id: generateId(),
     name: body.name,
     number: body.number
   }
@@ -91,6 +106,8 @@ app.put(`${baseAPIUrl}/persons/:id`, (request, response) => {
   db.persons = db.persons.map(person => person.id !== id ? person : updatedPerson)
   response.json(updatedPerson)
 })
+
+app.use(unknownEndpoint)
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
