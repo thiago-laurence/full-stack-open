@@ -46,7 +46,12 @@ const App = () => {
       </p>
       <div>
         {message && <p>{message}</p>}
-        {countries && Array.isArray(countries) && countries.map(country => <p key={country.name.common}>{country.name.common}</p>)}
+        {countries && Array.isArray(countries) && countries.map(country => 
+          <div key={country.name.common}> 
+            <p>{country.name.common}</p>
+            <button onClick={() => setCountries(country)}>Show</button>
+          </div>
+        )}
         {countries && !Array.isArray(countries) && (
           <div>
             <h1>{countries.name.common}</h1>
