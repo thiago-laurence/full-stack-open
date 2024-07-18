@@ -1,6 +1,8 @@
 const express = require('express')
+const cors = require('cors')
 const app = express()
 app.use(express.json())
+app.use(cors())
 
 const morgan = require('morgan')
 morgan.token('body', (req) => {
@@ -20,16 +22,17 @@ app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
 
-app.get(`${baseAPIUrl}/persons`, (request, response) => {
-  response.json(db.persons)
-})
-
 app.get('/info', (request, response) => {
   const date = new Date()
   response.send(`
     <p>Phonebook has info for ${db.persons.length} people</p>
     <p>${date.toString()}</p>
   `)
+})
+
+
+app.get(`${baseAPIUrl}/persons`, (request, response) => {
+  response.json(db.persons)
 })
 
 app.get(`${baseAPIUrl}/persons/:id`, (request, response) => {
@@ -70,6 +73,23 @@ app.post(`${baseAPIUrl}/persons`, (request, response) => {
 
   db.persons = db.persons.concat(person)
   response.json(person)
+})
+
+app.put(`${baseAPIUrl}/persons/:id`, (request, response) => {
+  const id = Number(request.params.id)
+  const body = request.body
+  const person = db.persons.find(person => person.id === id)
+  if (!person) {
+    response.statusMessage = "The person with the given id was not found"
+    return response.status(404).end()
+  }
+
+  const updatedPerson = {
+    ...person,
+    number: body.number
+  }
+  db.persons = db.persons.map(person => person.id !== id ? person : updatedPerson)
+  response.json(updatedPerson)
 })
 
 const PORT = 3001

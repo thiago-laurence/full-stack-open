@@ -1,87 +1,94 @@
 import { useState, useEffect } from 'react'
-import countriesService from './services/countries'
+import personsService from './services/persons'
+import Filter from './components/Filter'
+import PersonForm from './components/PersonForm'
+import Persons from './components/Persons'
+import Notification from './components/Notification'
 
 const App = () => {
+  const [persons, setPersons] = useState([
+    useEffect(() => { 
+      personsService.getAll().then(persons => setPersons(persons)) 
+    }, [])
+  ])
   const [name, setName] = useState('')
-  const [countries, setCountries] = useState(null)
-  const [weather, setWeather] = useState(null)
-  const [message, setMessage] = useState('')
-  useEffect(() => {
-    if (name !== '') {
-      countriesService.findByName(name)
-        .then(countries => {
-          if (countries.length > 10) {
-            setMessage('Too many matches, specify another filter')
-            setWeather(null)
-            setCountries(null)
-            return
-          }
-          if (countries.length > 1 && countries.length <= 10) {
-            setMessage('')
-            setCountries(countries)
-            return
-          }
-          if (countries.length === 1) {
-            setMessage('')
-            setCountries(countries[0])
-            countriesService.findWeather(countries[0].latlng[0], countries[0].latlng[1])
-              .then(weather => {
-                setWeather(weather)
-              })
-            return
-          }
-          setMessage('No matches')
-          setCountries(null)
-          setWeather(null)
-        })
-        .catch(error => console.error(error))
-    }else{
-      setMessage('')
-      setWeather(null)
-      setCountries(null)
-    }
-  }, [name])
+  const [number, setNumber] = useState('')
 
-  const changeHandler = (event) => {
-    setName(event.target.value)
+  const handleOnChange = (event, setState) => {
+    setState(event.target.value)
   }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    const person = persons.find(p => p.name.toLowerCase() === name.toLowerCase())
+    if (person !== undefined) {
+      if(window.confirm(`'${name}' is already added to the numberbook, replace the old number with a new one?`)){
+        const changedPerson = { ...person, number: number }
+        personsService.update(person.id, changedPerson)
+          .then(person => {
+            setPersons(persons.map(p => p.id !== person.id ? p : person))
+            setName('')
+            setNumber('')
+            setMessage({ ok: true, text: `The number of '${person.name}' was updated` })
+            setTimeout(() => {
+              setMessage({ ...message, ok: null })
+            }, 5000)
+        })
+      }
+      return
+    }
+    const personObject = {
+      // id: persons.length + 1,
+      name: name,
+      number: number
+    }
+    personsService.create(personObject)
+      .then(person => {
+        setPersons(persons.concat(person))
+        setName('')
+        setNumber('')
+        setMessage({ ok: true, text: `Added '${person.name}'` })
+        setTimeout(() => {
+          setMessage({ ...message, ok: null })
+        }, 5000)
+    })
+  }
+
+  const [query, setQuery] = useState('')
+  const personsQuery = (persons[0] === undefined) ? Array(0)
+    : (query === '') ? persons 
+    :  persons.filter(p => p.name.toLowerCase().includes(query.toLowerCase()))
+
+  const handleRemove = (id) => {
+    const person = persons.find(p => p.id === id)
+    if (window.confirm(`Delete '${person.name}' ?`)) {
+      personsService.remove(id)
+        .then(person => {
+          setMessage({ ok: true, text: `The person '${person.name}' has been eliminated` })
+        })
+        .catch(() => {
+          setMessage({ ok: false, text: `The person '${person.name}' was already removed from the server` })
+        })
+      setPersons(persons.filter(p => p.id !== person.id))
+      setTimeout(() => {
+        setMessage({ ...message, ok: null })
+      }, 5000)
+    }
+  }
+
+  const [message, setMessage] = useState({ ok: null, text: '' })
 
   return (
     <div>
-      <p>
-        Find countries: 
-        <input type='text' placeholder='Type a countrie name...' value={name} onChange={changeHandler} />
-      </p>
-      <div>
-        {message && <p>{message}</p>}
-        {countries && Array.isArray(countries) && countries.map(country => 
-          <div key={country.name.common}> 
-            <p>{country.name.common}</p>
-            <button onClick={() => setCountries(country)}>Show</button>
-          </div>
-        )}
-        {countries && !Array.isArray(countries) && (
-          <div>
-            <h1>{countries.name.common}</h1>
-            <p>Capital: {countries.capital}</p>
-            <p>Area: {countries.area} km^2</p>
-            <h2>Languages</h2>
-            <ul>
-              {Object.values(countries.languages).map(language => <li key={language}>{language}</li>)}
-            </ul>
-            <img src={countries.flags.png} alt={countries.name.common} width='100' />
-          </div>
-        )}
-        {weather && (
-          <div>
-            <h1>Weather in {countries.capital}</h1>
-            <p>{weather.weather[0].main + " - " + weather.weather[0].description}</p>
-            <p>Temperature: {Math.floor(weather.main.temp - 273.15)}° Celsius</p>
-            <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} alt='weather icon' />
-            <p>Wind: {weather.wind.speed} m/s</p>
-          </div>
-        )}
-      </div>
+      <h1>Numberbook</h1>
+      <Filter state={query} setState={setQuery} onChangeHandler={handleOnChange} />
+
+      <h1>Add a new</h1>
+      <Notification message={message} />
+      <PersonForm submitHandler={handleSubmit} name={name} number={number} setName={setName} setNumber={setNumber} onChangeHandler={handleOnChange} />
+      
+      <h2>Numbers</h2>
+      <Persons persons={personsQuery} removeHandler={handleRemove} />
     </div>
   )
 }
