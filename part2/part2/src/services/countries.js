@@ -1,10 +1,12 @@
 import axios from 'axios'
 
 const baseUrl = 'http://localhost:3001/countries'
+const APIWeather = 'https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API-key}'
+const api_key = import.meta.env.VITE_WEATHER_API_KEY
 
 const findAll = () => {
-    const request = axios.get(`${baseUrl}`)
-    return request.then(response => response.data)
+    return axios.get(`${baseUrl}`)
+        .then(response => response.data)
 }
 
 const findByName = (name) => {
@@ -12,4 +14,9 @@ const findByName = (name) => {
         .then(countries => countries.filter(country => country.name.common.toLowerCase().includes(name.toLowerCase())))
 }
 
-export default { findAll, findByName }
+const findWeather = (lat, lon) => {
+    return axios.get(`${APIWeather.replace('{lat}', lat).replace('{lon}', lon).replace('{API-key}', api_key)}`)
+        .then(response => response.data)
+}
+
+export default { findAll, findByName, findWeather }
