@@ -26,6 +26,15 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 
+const errorHandler = (error, request, response, next) => {
+  console.error(error.message)
+
+  if (error.name === 'CastError') {
+    return response.status(400).send({ error: 'malformatted id' })
+  } 
+
+  next(error)
+}
 
 const baseAPIUrl = '/api'
 
@@ -49,18 +58,22 @@ app.get(`${baseAPIUrl}/persons`, (request, response) => {
   })
 })
 
-app.get(`${baseAPIUrl}/persons/:id`, (request, response) => {
+app.get(`${baseAPIUrl}/persons/:id`, (request, response, next) => {
   People.findById(request.params.id)
-    .then(person => response.json(person))
-    .catch(() => {
-      response.statusMessage = "The person with the given id was not found"
-      response.status(404).end()
+    .then(person => {
+      if (!person) {
+        response.statusMessage = "The person with the given id was not found"
+        return response.status(404).end()
+      }
+      response.json(person)
     })
+    .catch(error => next(error))
 })
 
-app.delete(`${baseAPIUrl}/persons/:id`, (request, response) => {
+app.delete(`${baseAPIUrl}/persons/:id`, (request, response, next) => {
   People.findByIdAndDelete(request.params.id)
     .then(() => response.status(204).end())
+    .catch(error => next(error))
 })
 
 app.post(`${baseAPIUrl}/persons`, (request, response) => {
@@ -78,16 +91,21 @@ app.post(`${baseAPIUrl}/persons`, (request, response) => {
   person.save().then(savedPerson => response.json(savedPerson))
 })
 
-app.put(`${baseAPIUrl}/persons/:id`, (request, response) => {
+app.put(`${baseAPIUrl}/persons/:id`, (request, response, next) => {
   People.findByIdAndUpdate(request.params.id, { number: request.body.number }, { new: true })
-    .then(updatedPerson => response.json(updatedPerson))
-    .catch(() => {
-      response.statusMessage = "The person with the given id was not found"
-      response.status(404).end()
+    .then(updatedPerson => {
+      if (!updatedPerson) {
+        response.statusMessage = "The person with the given id was not found"
+        return response.status(404).end()
+      }
+      response.json(updatedPerson)
     })
+    .catch(error => next(error))
 })
 
 app.use(unknownEndpoint)
+
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
