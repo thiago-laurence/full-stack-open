@@ -31,7 +31,13 @@ const errorHandler = (error, request, response, next) => {
 
   if (error.name === 'CastError') {
     return response.status(400).send({ error: 'malformatted id' })
-  } 
+  }
+  if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
+  if (error.name === 'MongoServerError'){
+    return response.status(500).json({ error: error.message })
+  }
 
   next(error)
 }
@@ -76,23 +82,19 @@ app.delete(`${baseAPIUrl}/persons/:id`, (request, response, next) => {
     .catch(error => next(error))
 })
 
-app.post(`${baseAPIUrl}/persons`, (request, response) => {
-  const body = request.body
-  if (!body.name || !body.number) {
-    return response.status(400).json({
-      error: 'name or number is missing'
-    })
-  }
-
+app.post(`${baseAPIUrl}/persons`, (request, response, next) => {
   const person = new People({
-    name: body.name,
-    number: body.number
+    name: request.body.name,
+    number: request.body.number
   })
-  person.save().then(savedPerson => response.json(savedPerson))
+  person.save()
+    .then(savedPerson => response.json(savedPerson))
+    .catch(error => next(error))
 })
 
 app.put(`${baseAPIUrl}/persons/:id`, (request, response, next) => {
-  People.findByIdAndUpdate(request.params.id, { number: request.body.number }, { new: true })
+  const { number } = request.body
+  People.findByIdAndUpdate(request.params.id, { number }, { new: true, runValidators: true, context: 'query' })
     .then(updatedPerson => {
       if (!updatedPerson) {
         response.statusMessage = "The person with the given id was not found"

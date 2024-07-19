@@ -38,7 +38,6 @@ const App = () => {
       return
     }
     const personObject = {
-      // id: persons.length + 1,
       name: name,
       number: number
     }
@@ -51,7 +50,13 @@ const App = () => {
         setTimeout(() => {
           setMessage({ ...message, ok: null })
         }, 5000)
-    })
+      })
+      .catch(error => {
+        setMessage({ ok: false, text: error.response.data.error })
+        setTimeout(() => {
+          setMessage({ ...message, ok: null })
+        }, 5000)
+      })
   }
 
   const [query, setQuery] = useState('')
