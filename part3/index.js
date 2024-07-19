@@ -1,5 +1,8 @@
 const express = require('express')
 const app = express()
+require('dotenv').config()
+
+const People = require('./models/People')
 
 app.use(express.static('dist'))
 
@@ -23,7 +26,7 @@ const unknownEndpoint = (request, response) => {
   response.status(404).send({ error: 'unknown endpoint' })
 }
 
-const db = require('./db')
+
 const baseAPIUrl = '/api'
 
 app.get('/', (request, response) => {  
@@ -32,40 +35,33 @@ app.get('/', (request, response) => {
 
 app.get('/info', (request, response) => {
   const date = new Date()
-  response.send(`
-    <p>Phonebook has info for ${db.persons.length} people</p>
-    <p>${date.toString()}</p>
-  `)
+  People.find({}).then(persons => {
+    response.send(`
+      <p>Phonebook has info for ${persons.length} people</p>
+      <p>${date.toString()}</p>
+    `)
+  })
 })
 
-
 app.get(`${baseAPIUrl}/persons`, (request, response) => {
-  response.json(db.persons)
+  People.find({}).then(persons => {
+    response.json(persons)
+  })
 })
 
 app.get(`${baseAPIUrl}/persons/:id`, (request, response) => {
-  const id = Number(request.params.id)
-  const person = db.persons.find(person => person.id === id)
-  if (person) {
-    response.json(person)
-  }
-
-  response.statusMessage = "The person with the given id was not found"
-  response.status(404).end()
+  People.findById(request.params.id)
+    .then(person => response.json(person))
+    .catch(() => {
+      response.statusMessage = "The person with the given id was not found"
+      response.status(404).end()
+    })
 })
 
 app.delete(`${baseAPIUrl}/persons/:id`, (request, response) => {
-  const id = Number(request.params.id)
-  db.persons = db.persons.filter(person => person.id !== id)
-  response.status(204).end()
+  People.findByIdAndDelete(request.params.id)
+    .then(() => response.status(204).end())
 })
-
-const generateId = () => {
-  const maxId = db.persons.length > 0
-    ? Math.max(...db.persons.map(n => n.id))
-    : 0
-  return maxId + 1
-}
 
 app.post(`${baseAPIUrl}/persons`, (request, response) => {
   const body = request.body
@@ -74,42 +70,26 @@ app.post(`${baseAPIUrl}/persons`, (request, response) => {
       error: 'name or number is missing'
     })
   }
-  if (db.persons.some(person => person.name === body.name)) {
-    return response.status(400).json({
-      error: 'name must be unique'
-    })
-  }
 
-  const person = {
-    id: generateId(),
+  const person = new People({
     name: body.name,
     number: body.number
-  }
-
-  db.persons = db.persons.concat(person)
-  response.json(person)
+  })
+  person.save().then(savedPerson => response.json(savedPerson))
 })
 
 app.put(`${baseAPIUrl}/persons/:id`, (request, response) => {
-  const id = Number(request.params.id)
-  const body = request.body
-  const person = db.persons.find(person => person.id === id)
-  if (!person) {
-    response.statusMessage = "The person with the given id was not found"
-    return response.status(404).end()
-  }
-
-  const updatedPerson = {
-    ...person,
-    number: body.number
-  }
-  db.persons = db.persons.map(person => person.id !== id ? person : updatedPerson)
-  response.json(updatedPerson)
+  People.findByIdAndUpdate(request.params.id, { number: request.body.number }, { new: true })
+    .then(updatedPerson => response.json(updatedPerson))
+    .catch(() => {
+      response.statusMessage = "The person with the given id was not found"
+      response.status(404).end()
+    })
 })
 
 app.use(unknownEndpoint)
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
