@@ -6,3 +6,5 @@ Desarrollo de curso **full-stack-open**.
 **Parte 2:** [Comunicándose con el servidor.](https://github.com/thiago-laurence/full-stack-open/tree/main/part2/part2)
 
 **Parte 3:** [NodeJS y Express.](https://github.com/thiago-laurence/full-stack-open/tree/main/part3)
+
+**Parte 4:** [Testing y autenticación.](https://github.com/thiago-laurence/full-stack-open/tree/main/part4)
