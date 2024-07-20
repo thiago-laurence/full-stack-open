@@ -18,7 +18,7 @@ app.use(express.json())
 app.use(morgan('tiny'))
 app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms :body', {
-    skip: (req, res) => req.method !== 'POST'
+    skip: (req) => req.method !== 'POST'
   })
 )
 
@@ -44,7 +44,7 @@ const errorHandler = (error, request, response, next) => {
 
 const baseAPIUrl = '/api'
 
-app.get('/', (request, response) => {  
+app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
 })
 
@@ -68,7 +68,7 @@ app.get(`${baseAPIUrl}/persons/:id`, (request, response, next) => {
   People.findById(request.params.id)
     .then(person => {
       if (!person) {
-        response.statusMessage = "The person with the given id was not found"
+        response.statusMessage = 'The person with the given id was not found'
         return response.status(404).end()
       }
       response.json(person)
@@ -97,7 +97,7 @@ app.put(`${baseAPIUrl}/persons/:id`, (request, response, next) => {
   People.findByIdAndUpdate(request.params.id, { number }, { new: true, runValidators: true, context: 'query' })
     .then(updatedPerson => {
       if (!updatedPerson) {
-        response.statusMessage = "The person with the given id was not found"
+        response.statusMessage = 'The person with the given id was not found'
         return response.status(404).end()
       }
       response.json(updatedPerson)
