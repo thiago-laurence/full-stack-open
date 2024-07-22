@@ -1,19 +1,27 @@
+const middleware = require('../utils/middleware')
 const blogsRouter = require('express').Router()
 const Blog = require('../models/Blog')
+const User = require('../models/User')
 
 blogsRouter.get('/', async (request, response) => {
-  const blogs = await Blog.find({})
+  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
   response.json(blogs)
 })
 
-blogsRouter.post('/', async (request, response) => {
+blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
+  const user = await User.findById(request.user.id)
+  if (!user) {
+    return response.status(404).json({ error: 'the user dont exists' })
+  }
+  request.body.user = user.id
+
   const blog = new Blog(request.body)
   const newBlog = await blog.save()
 
   response.status(201).json(newBlog)
 })
 
-blogsRouter.get('/:id', async (request, response) => {
+blogsRouter.get('/:id', middleware.userExtractor, async (request, response) => {
   const blog = await Blog.findById(request.params.id)
   if (!blog){
     return response.status(404).end()
@@ -21,17 +29,26 @@ blogsRouter.get('/:id', async (request, response) => {
   response.json(blog)
 })
 
-blogsRouter.delete('/:id', async (request, response) => {
-  await Blog.findByIdAndDelete(request.params.id)
+blogsRouter.delete('/:id', middleware.userExtractor, async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+
+  if (request.user.id !== blog.user.toString()){
+    return response.status(403).end()
+  }
+  await blog.deleteOne()
   response.status(204).end()
 })
 
-blogsRouter.put('/:id', async (request, response) => {
-  const blog = {
-    likes: request.body.likes
+blogsRouter.put('/:id', middleware.userExtractor, async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+
+  if (request.user.id !== blog.user.toString()){
+    return response.status(403).end()
   }
-  const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, { new: true })
-  response.json(updatedBlog)
+
+  blog.likes = request.body.likes
+  blog.updateOne()
+  response.json(blog)
 })
 
 module.exports = blogsRouter
