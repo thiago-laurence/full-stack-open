@@ -7,7 +7,7 @@ const Blog = ({ user, blog, update, remove }) => (
         </p>
         <Togglable buttonShowLabel="View" buttonHideLabel="Hide">
             <p>{ blog.url }</p>
-            <p>{ blog.likes } likes <button onClick={() => update(blog) }>Like</button></p>
+            <p data-testid='blog-like'>{ blog.likes } likes <button onClick={() => update(blog) }>Like</button></p>
             { (blog.user)
                 ? <div>
                     <p>{ blog.user.name + ' \'' + blog.user.username + '\'' }</p>
