@@ -9,4 +9,6 @@ Desarrollo de curso **full-stack-open**.
 
 **Parte 4:** [Testing y autenticación en NodeJS.](https://github.com/thiago-laurence/full-stack-open/tree/main/part4)
 
-**Parte 5:** [Testing y autenticación en React.](https://github.com/thiago-laurence/full-stack-open/tree/main/part5/part5)
+**Parte 5:** [Testing y autenticación en React.](https://github.com/thiago-laurence/full-stack-open/tree/main/part5)
+
+**Parte 6:** [Gestión avanzada del estado en React.](https://github.com/thiago-laurence/full-stack-open/tree/main/part6/part6)
