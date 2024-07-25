@@ -25,6 +25,7 @@ const BlogForm = ({ createBlog }) => {
                             value={ blog[key] }
                             name={ key }
                             data-testid={ 'form-' + key }
+                            id={ 'form-' + key }
                             onChange={({ target }) => setBlog({ ...blog, [key]: target.value })}
                         />
                     </div>

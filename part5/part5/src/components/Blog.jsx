@@ -1,7 +1,7 @@
 import Togglable from './Togglable'
 
 const Blog = ({ user, blog, update, remove }) => (
-    <div style={ { border: '2.5px solid black', fontSize: '20px', padding: '10px', margin: '10px 0px' } }>
+    <div className="blog" style={ { border: '2.5px solid black', fontSize: '20px', padding: '10px', margin: '10px 0px' } }>
         <p style={ { margin: '0px' } } className='blog-title-author'>
             { '"' + blog.title + '"' } by { blog.author }
         </p>
