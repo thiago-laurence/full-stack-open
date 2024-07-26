@@ -1,23 +1,63 @@
-import { useEffect } from "react"
-import { useDispatch } from "react-redux"
-import { initializeAnecdotes } from "./reducers/anecdoteReducer"
-import Anecdotes from "./components/Anecdotes"
-import AnecdoteForm from "./components/AnecdoteForm"
-import Filter from "./components/Filter"
-import Notification from "./components/Notification"
+import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
+import { getAnecdotes, updateAnecdote } from './services/anecdotesService'
+import AnecdoteForm from './components/AnecdoteForm'
+import Notification from './components/Notification'
 
 const App = () => {
-  const dispatch = useDispatch()
-  useEffect(() => {
-    dispatch(initializeAnecdotes())
-  }, [])
+  const queryClient = useQueryClient()
+  
+  const anecdotesQuery = useQuery({
+    queryKey: ['anecdotes'],
+    queryFn: getAnecdotes,
+    retry: 3,
+    refetchOnWindowFocus: false
+  })
+
+  const voteMutation = useMutation({
+    mutationFn: updateAnecdote,
+    onSuccess: (updatedAnecdote) => {
+      const anecdotes = queryClient.getQueryData(['anecdotes'])
+      queryClient.setQueryData(['anecdotes'], anecdotes.map(a => a.id === updatedAnecdote.id ? updatedAnecdote : a))
+    }
+  })
+
+  const handleVote = (anecdote) => {
+    voteMutation.mutate({ ...anecdote, votes: anecdote.votes + 1 })
+  }
+
+  switch (anecdotesQuery.status){
+    case 'pending':
+      return <div>Loading anecdotes...</div>
+    case 'error':
+      return (
+        <div>
+          <p>anecdote service not available due to problems in server</p>
+          <p><strong>Error fetching data: { anecdotesQuery.error.message }</strong></p>
+        </div>
+      )
+    default:
+      break
+  }
 
   return (
     <div>
-      <Filter />
+      <h3>Anecdote app</h3>
+    
       <Notification />
-      <Anecdotes />
       <AnecdoteForm />
+    
+      { anecdotesQuery.data.map(a =>
+        <div key={ a.id }>
+          <div>
+            { '"' + a.content + "'"}
+          </div>
+          <div>
+            Has: { a.votes }.
+            <button onClick={ () => handleVote(a) }>vote</button>
+          </div>
+          <br />
+        </div>
+      )}
     </div>
   )
 }
