@@ -11,6 +11,6 @@ export const IMC = (height: number, weight: number): string => {
     return "Overweight";
 }
 
-console.log(IMC(180, 59)); // Underweight
-console.log(IMC(180, 74)); // Normal (healthy weight)
-console.log(IMC(180, 90)); // Overweight
+// console.log(IMC(180, 59)); // Underweight
+// console.log(IMC(180, 74)); // Normal (healthy weight)
+// console.log(IMC(180, 90)); // Overweight

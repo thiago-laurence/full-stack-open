@@ -1,23 +1,5 @@
+import { ExerciseValues, Rating, ExerciseArgs } from './types';
 import { parseArguments } from './utils';
-
-interface ExerciseValues {
-    periodLength: number,
-    trainingDays: number,
-    success: boolean,
-    rating: Rating,
-    target: number,
-    average: number
-}
-
-interface Rating {
-    rating: 1 | 2 | 3,
-    description: string
-}
-
-interface ExerciseArgs {
-    target: number,
-    weekHours: number[]
-}
 
 const validateExercise = (args: string[]): ExerciseArgs => {
     if (isNaN(Number(args[2])) || args.slice(3).some(h => isNaN(Number(h)))) throw new Error('Provided values were not numbers!');

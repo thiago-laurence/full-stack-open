@@ -1,16 +1,4 @@
-interface ExerciseValues { 
-    periodLength: number,
-    trainingDays: number,
-    success: boolean,
-    rating: Rating,
-    target: number,
-    average: number
-}
-
-interface Rating {
-    rating: 1 | 2 | 3,
-    description: string
-}
+import { ExerciseValues, Rating } from './types';
 
 export const calculateExercises = (weekHours: number[], target: number): ExerciseValues => {
     const periodLength = weekHours.length;
@@ -31,4 +19,4 @@ export const calculateExercises = (weekHours: number[], target: number): Exercis
     };
 };
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
+// console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2));
