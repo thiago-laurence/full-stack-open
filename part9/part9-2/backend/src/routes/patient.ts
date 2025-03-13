@@ -6,8 +6,22 @@ import toNewPatient from '../utils';
 const router = express.Router();
 
 router.get('/', (_req, res) => {
-    const result = patientService.getPublicPatients();    
+    const result = patientService.getNonSensitivePatients();    
     res.send(result);
+});
+
+router.get('/sensitive', (_req, res) => {
+    const result = patientService.getPatients();    
+    res.send(result);
+});
+
+router.get('/:id', (req, res) => {
+    const patient = patientService.findById(req.params.id);
+    if(!patient){
+        res.sendStatus(404);
+        return ;
+    }
+    res.send(patient);
 });
 
 router.post('/', (req, res) => {
