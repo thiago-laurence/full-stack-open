@@ -1,4 +1,4 @@
-import { View, Text, Pressable, StyleSheet, Button } from 'react-native';
+import { View, Text, Pressable, StyleSheet } from 'react-native';
 import FormikTextInput from '../../src/components/FormikInputs/FormikTextInput';
 import theme from '../../src/theme';
 

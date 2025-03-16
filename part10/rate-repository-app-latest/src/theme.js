@@ -2,6 +2,7 @@ const BACKGROUND_PRIMARY = '#24292e';
 const BACKGROUND_SECONDARY = '#e1e4e8'
 const PRIMARY = '#0366d6';
 const PRIMARY_DARK = '#032f62';
+const DANGER = '#d73a4a';
 
 const theme = {
     colors: {
@@ -11,6 +12,7 @@ const theme = {
         backgroundSecondary: BACKGROUND_SECONDARY,
         primary: PRIMARY,
         primaryDark: PRIMARY_DARK,
+        danger: DANGER,
         transparent: 'rgba(0, 0, 0, 0)',
     },
     fontSizes: {
