@@ -1,6 +1,7 @@
 const BACKGROUND_PRIMARY = '#24292e';
 const BACKGROUND_SECONDARY = '#e1e4e8'
 const PRIMARY = '#0366d6';
+const PRIMARY_DARK = '#032f62';
 
 const theme = {
     colors: {
@@ -9,6 +10,7 @@ const theme = {
         backgroundPrimary: BACKGROUND_PRIMARY,
         backgroundSecondary: BACKGROUND_SECONDARY,
         primary: PRIMARY,
+        primaryDark: PRIMARY_DARK,
         transparent: 'rgba(0, 0, 0, 0)',
     },
     fontSizes: {
