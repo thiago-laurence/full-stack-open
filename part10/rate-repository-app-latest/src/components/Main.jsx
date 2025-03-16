@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import RepositoryList from './RepositoryList';
-import AppBar from './AppBar';
+import AppBar from './AppBar/AppBar';
 import theme from '../theme';
 
 const styles = StyleSheet.create({
@@ -14,9 +14,11 @@ const styles = StyleSheet.create({
 
 const Main = () => {
   return (
-    <View style={styles.container}>
+    <View>
       <AppBar />
-      <RepositoryList />
+      <View style={styles.container}>
+        <RepositoryList />
+      </View>
     </View>
   );
 };
