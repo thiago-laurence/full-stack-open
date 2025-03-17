@@ -1,4 +1,6 @@
-{
+import 'dotenv/config';
+
+export default {
   "expo": {
     "name": "rate-repository-app-latest",
     "slug": "rate-repository-app-latest",
@@ -27,6 +29,9 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    extra: {
+      env: process.env.APOLLO_URI,
+    }
   }
 }
