@@ -1,4 +1,4 @@
-import { Text, View, Image, StyleSheet, Pressable } from 'react-native';
+import { Text, View, Image, StyleSheet } from 'react-native';
 import theme from '../theme';
 
 const cardHeaderStyles = StyleSheet.create({
