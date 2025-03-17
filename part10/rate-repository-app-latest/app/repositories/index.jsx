@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 });
 
 
-const Repositories = () => {
+const RepositoriesPage = () => {
     return (
         <HomePage>
             <View style={styles.container}>
@@ -20,4 +20,4 @@ const Repositories = () => {
     );
 };
 
-export default Repositories;
+export default RepositoriesPage;
