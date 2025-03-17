@@ -2,6 +2,7 @@ import { View } from 'react-native';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import SignInForm from '../../src/components/SignInForm';
+import HomePage from '../index'
 
 const initialValues = {
     username: "",
@@ -27,11 +28,13 @@ const SignIn = () => {
     }
 
     return (
-        <View>
-            <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submit}>
-                {  ({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} /> }
-            </Formik>
-        </View>
+        <HomePage>
+            <View>
+                <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={submit}>
+                    {  ({ handleSubmit }) => <SignInForm onSubmit={handleSubmit} /> }
+                </Formik>
+            </View>
+        </ HomePage>
     );
 };
 

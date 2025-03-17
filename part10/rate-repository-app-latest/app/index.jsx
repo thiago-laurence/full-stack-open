@@ -8,10 +8,11 @@ const styles = StyleSheet.create({
   }
 });
 
-export default function HomePage() {
+export default function HomePage({ children }) {
   return (
     <View style={styles.main}>
       <AppBar />
+      { children }
     </View>
   );
 }

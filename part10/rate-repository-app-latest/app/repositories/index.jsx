@@ -1,5 +1,6 @@
 import { View, StyleSheet } from 'react-native';
 import RepositoryList from '../../src/components/RepositoryList';
+import HomePage from '../index';
 
 const styles = StyleSheet.create({
     container: {
@@ -11,9 +12,11 @@ const styles = StyleSheet.create({
 
 const Repositories = () => {
     return (
-        <View style={styles.container}>
-            <RepositoryList />
-        </View>
+        <HomePage>
+            <View style={styles.container}>
+                <RepositoryList />
+            </View>
+        </HomePage>
     );
 };
 
