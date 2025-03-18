@@ -1,4 +1,6 @@
+import { useQuery } from '@apollo/client';
 import { View, StyleSheet, ScrollView } from 'react-native';
+import { ME } from '../../graphql/queries';
 import AppBarTab from './AppBarTab';
 import theme from '../../theme';
 
@@ -19,15 +21,27 @@ const styles = StyleSheet.create({
 });
 
 const AppBar = () => {
-  return (
-    <View style={styles.container}>
-      <ScrollView horizontal={true}>
-          <AppBarTab title="Home" link="/" styles={styles.text} />
-          <AppBarTab title="Repositories" link="repositories" styles={styles.text} />
-          <AppBarTab title="Sign in" link="signin" styles={styles.text} />
-      </ScrollView>
-    </View>
-  );
+    const result = useQuery(ME);
+    
+    if (result.loading) {
+        return null;
+    }
+
+    const isAuthenticated = result.data.me ? true : false;
+
+    return (
+      <View style={styles.container}>
+        <ScrollView horizontal={true}>
+            <AppBarTab title="Home" link="/" styles={styles.text} />
+            <AppBarTab title="Repositories" link="repositories" styles={styles.text} />
+            {isAuthenticated ? (
+              <AppBarTab title="Sign out" link="signin/signout" styles={styles.text} />
+            ) : (
+              <AppBarTab title="Sign in" link="signin" styles={styles.text} />
+            )}
+        </ScrollView>
+      </View>
+    );
 };
 
 export default AppBar;

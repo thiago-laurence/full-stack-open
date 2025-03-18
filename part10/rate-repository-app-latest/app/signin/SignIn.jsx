@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router'
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import useSignIn from '../../src/hooks/useSignIn';
@@ -38,12 +39,13 @@ const styles = StyleSheet.create({
 const SignIn = () => {
     const [signIn] = useSignIn();
     const [errorMessage, setErrorMessage] = useState(null);
+    const router = useRouter();
 
     const submit = async (values) => {
         const { username, password } = values;
         try {
             const { data } = await signIn({ username, password });
-            console.log(data);
+            router.push('repositories');
         } catch (e) {
             setErrorMessage(e.message);
             setTimeout(() => setErrorMessage(null), 5000);
