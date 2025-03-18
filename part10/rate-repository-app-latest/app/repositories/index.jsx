@@ -1,5 +1,5 @@
 import { View, StyleSheet } from 'react-native';
-import RepositoryList from '../../src/components/RepositoryList';
+import RepositoryList from '../../src/components/Repositories/RepositoryList';
 import HomePage from '../index';
 
 const styles = StyleSheet.create({

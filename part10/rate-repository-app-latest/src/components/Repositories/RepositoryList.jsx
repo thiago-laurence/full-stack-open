@@ -1,6 +1,6 @@
-import React from 'react';
-import { FlatList, View, StyleSheet } from 'react-native';
-import useRepositories from '../hooks/useRepositories';
+import { router } from 'expo-router';
+import { FlatList, View, StyleSheet, Pressable } from 'react-native';
+import useRepositories from '../../hooks/useRepositories';
 import RepositoryItem from './RepositoryItem';
 
 const styles = StyleSheet.create({
@@ -19,7 +19,14 @@ const RepositoryList = () => {
     <FlatList
         data={repositoryNodes}
         ItemSeparatorComponent={ItemSeparator}
-        renderItem={({ item }) => (<RepositoryItem item={item} />)}
+        renderItem={({ item }) => (
+          <Pressable onPress={() => router.push({
+            pathname: 'repositories/[id]',
+            params: { id: item.id }
+          })}>
+            <RepositoryItem item={item} />
+          </Pressable>
+        )}
         keyExtractor={item => item.id}
     />
   );

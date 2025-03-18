@@ -8,7 +8,8 @@ import theme from '../src/theme';
 
 const styles = StyleSheet.create({
   main: {
-    backgroundColor: theme.colors.backgroundSecondary
+    backgroundColor: theme.colors.backgroundSecondary,
+    height: '100%',
   }
 });
 

@@ -1,5 +1,6 @@
-import { Text, View, Image, StyleSheet } from 'react-native';
-import theme from '../theme';
+import { Text, View, Image, StyleSheet, Pressable } from 'react-native';
+import * as Linking from 'expo-linking';
+import theme from '../../theme';
 
 const cardHeaderStyles = StyleSheet.create({
     container: {
@@ -53,27 +54,36 @@ const CardHeader = ({ item }) => {
   );
 };
 
-const cardBodyStyles = StyleSheet.create({
+const cardFooterStyles = StyleSheet.create({
   container: {
     paddingVertical: 15,
+  },
+  repoUrl: {
+    color: 'white',
+    padding: 15,
+    fontWeight: theme.fontWeights.bold,
+    borderRadius: 5,
+    backgroundColor: theme.colors.primary,
+    textAlign: 'center',
   }
 });
 
-const CardBody = () => {
+const CardFooter = ({ item }) => {
   return (
-    <View style={cardBodyStyles.container}>
-      <Text>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec sodales molestie nisl, a elementum leo congue tempor. Aliquam erat volutpat. Aenean id pharetra orci.
-      </Text>
+    <View style={cardFooterStyles.container}>
+      <Pressable onPress={() => Linking.openURL(item.url)}>
+        <Text style={cardFooterStyles.repoUrl}>Open in GitHub</Text>
+      </Pressable>
     </View>
   );
 };
 
-const cardFooterStyles = StyleSheet.create({
+const cardBodyStyles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         flexGrow: 1,
         justifyContent: 'space-around',
+        marginVertical: 10
     },
     actionTouchable: {
         flexGrow: 0,
@@ -96,24 +106,24 @@ const formatCount = (count) => {
     return count.toString();
 };
 
-const CardFooterItem = ({ count, label }) => {
-return (
-    <View style={cardFooterStyles.actionTouchable}>
-        <View style={{ alignItems: 'center' }}>
-            <Text style={cardFooterStyles.statCount}>{formatCount(count)}</Text>
-            <Text style={cardFooterStyles.statText}>{label}</Text>
-        </View>
-    </View>
-)
+const CardBodyItem = ({ count, label }) => {
+  return (
+      <View style={cardBodyStyles.actionTouchable}>
+          <View style={{ alignItems: 'center' }}>
+              <Text style={cardBodyStyles.statCount}>{formatCount(count)}</Text>
+              <Text style={cardBodyStyles.statText}>{label}</Text>
+          </View>
+      </View>
+  )
 };
 
-const CardFooter = ({ item }) => {
+const CardBody = ({ item }) => {
   return (
-    <View style={cardFooterStyles.container}>
-        <CardFooterItem count={item.stargazersCount} label="Stars" />
-        <CardFooterItem count={item.forksCount} label="Forks" />
-        <CardFooterItem count={item.reviewCount} label="Reviews" />
-        <CardFooterItem count={item.ratingAverage} label="Rating" />
+    <View style={cardBodyStyles.container}>
+        <CardBodyItem count={item.stargazersCount} label="Stars" />
+        <CardBodyItem count={item.forksCount} label="Forks" />
+        <CardBodyItem count={item.reviewCount} label="Reviews" />
+        <CardBodyItem count={item.ratingAverage} label="Rating" />
     </View>
   );
 };
@@ -121,7 +131,7 @@ const CardFooter = ({ item }) => {
 const cardStyles = StyleSheet.create({
   container: {
     alignItems: 'stretch',
-    padding: 10,
+    padding: 15,
     backgroundColor: 'white',
   },
 });
@@ -130,7 +140,7 @@ const Card = ({ item }) => {
   return (
     <View style={cardStyles.container}>
       <CardHeader item={ item } />
-      {/* <CardBody /> */}
+      <CardBody item={ item } />
       <CardFooter item={ item } />
     </View>
   );
