@@ -4,7 +4,8 @@ import { useRouter } from 'expo-router'
 import { Formik } from 'formik';
 import * as yup from 'yup';
 import useSignIn from '../../src/hooks/useSignIn';
-import SignInForm from '../../src/components/SignInForm';
+import HomePage from '../index';
+import SignInForm from '../../src/components/auth/SignInForm';
 import theme from '../../src/theme';
 
 const initialValues = {
@@ -62,4 +63,12 @@ const SignIn = () => {
     );
 }
 
-export default SignIn;
+const Page = () => {
+    return (
+        <HomePage>
+            <SignIn />
+        </ HomePage>
+    );
+};
+
+export default Page;

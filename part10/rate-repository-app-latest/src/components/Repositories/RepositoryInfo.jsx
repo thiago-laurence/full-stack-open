@@ -69,6 +69,10 @@ const cardFooterStyles = StyleSheet.create({
 });
 
 const CardFooter = ({ item }) => {
+  if (!item.url) {
+    return null;
+  }
+
   return (
     <View style={cardFooterStyles.container}>
       <Pressable onPress={() => Linking.openURL(item.url)}>

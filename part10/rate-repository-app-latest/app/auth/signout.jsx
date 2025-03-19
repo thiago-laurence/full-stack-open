@@ -13,7 +13,7 @@ const SignOut = () => {
         const signOut = async () => {
             await authStorage.removeAccessToken();
             await apolloClient.resetStore();
-            router.push("/");
+            router.push("repositories");
         };
 
         signOut();
@@ -22,7 +22,7 @@ const SignOut = () => {
     return null;
 };
 
-const SignOutPage = () => {
+const Page = () => {
     return (
         <HomePage>
             <SignOut />
@@ -30,4 +30,4 @@ const SignOutPage = () => {
     );
 };
 
-export default SignOutPage;
+export default Page;

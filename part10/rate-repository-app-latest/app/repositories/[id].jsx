@@ -2,14 +2,15 @@ import { useQuery } from "@apollo/client";
 import { useLocalSearchParams } from "expo-router";
 import { View, Text } from 'react-native';
 import HomePage from "../index";
-import RepositoryItem from "../../src/components/Repositories/RepositoryItem";
+import SingleRepository from "../../src/components/Repositories/SingleRepository";
 import { GET_REPOSITORY } from "../../src/graphql/queries";
 
 
 const WrappedPage = () => {
     const { id } = useLocalSearchParams();
     const result = useQuery(GET_REPOSITORY, {
-        variables: { id }
+        variables: { id },
+        fetchPolicy: 'cache-and-network'
     });
 
     if (result.loading) {
@@ -20,7 +21,7 @@ const WrappedPage = () => {
     const repository = result.data.repository;
 
     return (
-        <RepositoryItem item={repository} />
+        <SingleRepository repository={repository} />
     );
 }
 

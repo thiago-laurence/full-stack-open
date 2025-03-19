@@ -1,6 +1,6 @@
 import { View, StyleSheet } from 'react-native';
-import RepositoryList from '../../src/components/Repositories/RepositoryList';
 import HomePage from '../index';
+import RepositoryList from '../../src/components/Repositories/RepositoryList';
 
 const styles = StyleSheet.create({
     container: {
@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
 });
 
 
-const RepositoriesPage = () => {
+const Page = () => {
     return (
         <HomePage>
             <View style={styles.container}>
@@ -20,4 +20,4 @@ const RepositoriesPage = () => {
     );
 };
 
-export default RepositoriesPage;
+export default Page;

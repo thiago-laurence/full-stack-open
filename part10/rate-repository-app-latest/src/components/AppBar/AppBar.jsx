@@ -2,6 +2,7 @@ import { useQuery } from '@apollo/client';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { ME } from '../../graphql/queries';
 import AppBarTab from './AppBarTab';
+import AuthenticatedBarTab from './AuthenticatedBarTab';
 import theme from '../../theme';
 
 const styles = StyleSheet.create({
@@ -32,13 +33,8 @@ const AppBar = () => {
     return (
       <View style={styles.container}>
         <ScrollView horizontal={true}>
-            <AppBarTab title="Home" link="/" styles={styles.text} />
             <AppBarTab title="Repositories" link="repositories" styles={styles.text} />
-            {isAuthenticated ? (
-              <AppBarTab title="Sign out" link="signin/signout" styles={styles.text} />
-            ) : (
-              <AppBarTab title="Sign in" link="signin" styles={styles.text} />
-            )}
+            <AuthenticatedBarTab isAuth={isAuthenticated} styles={styles.text} />
         </ScrollView>
       </View>
     );
