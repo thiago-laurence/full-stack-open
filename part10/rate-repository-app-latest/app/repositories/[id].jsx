@@ -1,27 +1,21 @@
-import { useQuery } from "@apollo/client";
 import { useLocalSearchParams } from "expo-router";
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import useRepository from "../../src/hooks/useRepository";
 import HomePage from "../index";
 import SingleRepository from "../../src/components/Repositories/SingleRepository";
-import { GET_REPOSITORY } from "../../src/graphql/queries";
 
 
 const WrappedPage = () => {
     const { id } = useLocalSearchParams();
-    const result = useQuery(GET_REPOSITORY, {
-        variables: { id },
-        fetchPolicy: 'cache-and-network'
-    });
-
-    if (result.loading) {
-        return (
-            <Text>Loading...</Text>
-        );
+    const query = {
+        id,
+        first: 3,
     }
-    const repository = result.data.repository;
+    const { repository, fetchMore } = useRepository(query);
+    const onEndReach = () => { fetchMore(); };
 
     return (
-        <SingleRepository repository={repository} />
+        <SingleRepository repository={repository} onEndReach={onEndReach} />
     );
 }
 

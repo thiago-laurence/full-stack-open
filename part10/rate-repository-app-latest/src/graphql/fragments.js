@@ -26,3 +26,11 @@ export const REVIEW_DEATILS = gql`
         }
     }
 `;
+
+export const CURSOR_DETAILS = gql`
+    fragment CursorDetails on PageInfo {
+        endCursor,
+        startCursor,
+        hasNextPage
+    }
+`;

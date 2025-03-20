@@ -3,9 +3,9 @@ import { Text, Pressable } from 'react-native';
 
 const AppBarTab = ({ title, link, styles }) => {
   return (
-    <Pressable>
+    <Pressable style={styles.container}>
         <Link href={link}>
-            <Text style={styles}>{title}</Text>
+            <Text style={styles.text}>{title}</Text>
         </Link>
     </Pressable>
   );

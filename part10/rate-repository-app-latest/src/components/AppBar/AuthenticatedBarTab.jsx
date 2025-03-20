@@ -12,7 +12,8 @@ const AuthenticatedBarTab = ({ isAuth, styles }) => {
 
     return (
         <>
-            <AppBarTab title="Create a review" link="review/create" styles={styles} />
+            <AppBarTab title="Create a review" link="reviews/create" styles={styles} />
+            <AppBarTab title="My reviews" link="reviews/user_reviews" styles={styles} />
             <AppBarTab title="Sign out" link="auth/signout" styles={styles} />
         </>
     );

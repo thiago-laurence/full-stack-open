@@ -141,6 +141,10 @@ const cardStyles = StyleSheet.create({
 });
 
 const Card = ({ item }) => {
+  if (!item) {
+    return null;
+  }
+
   return (
     <View style={cardStyles.container}>
       <CardHeader item={ item } />
