@@ -16,6 +16,5 @@ app.use(express.json());
 
 app.use('/', indexRouter);
 app.use('/todos', todosRouter);
-const MONGO_DB = process.env.MONGO_DB || undefined
-console.log('MONGO_DB:', MONGO_DB);
+
 module.exports = app;
