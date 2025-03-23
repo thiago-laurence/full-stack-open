@@ -1,10 +1,12 @@
+const MONGO_DB = process.env.MONGO_DB || undefined
+
 db.createUser({
   user: 'the_username',
   pwd: 'the_password',
   roles: [
     {
       role: 'dbOwner',
-      db: 'the_database',
+      db: MONGO_DB,
     },
   ],
 });
