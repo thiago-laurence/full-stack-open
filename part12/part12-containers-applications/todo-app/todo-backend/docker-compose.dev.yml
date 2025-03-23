@@ -38,9 +38,6 @@ services:
     command: ['redis-server', '--appendonly', 'yes']
     volumes:
       - redis_data:/data
-  debug-helper:
-    container_name: debug-helper
-    image: busybox
 
 volumes:
   mongo_data:
