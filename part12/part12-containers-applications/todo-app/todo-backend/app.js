@@ -19,4 +19,6 @@ app.use('/', indexRouter);
 app.use('/todos', todosRouter);
 app.use('/statistics', statisticsRouter);
 
+console.log('Im inside container app');
+
 module.exports = app;
