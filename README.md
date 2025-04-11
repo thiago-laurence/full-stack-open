@@ -73,7 +73,7 @@ Esta parte fue creada por Tuomo Torppa, Tuukka Peuraniemi y Jani Rapo, los incre
 **4.** React con tipos.
 **5.** Grande finale: Patientos.
 
-**Parte 10:** [React Native.](https://github.com/thiago-laurence/full-stack-open/tree/main/part10/part10)
+**Parte 10:** [React Native.](https://github.com/thiago-laurence/full-stack-open/tree/main/part10/rate-repository-app-latest)
 En esta parte, aprenderemos cómo compilar Android nativo y aplicaciones móviles iOS con JavaScript y React usando el marco React Native. Nos sumergiremos en el ecosistema React Native desarrollando una aplicación móvil completa desde cero. En el camino, aprenderemos conceptos tales como cómo renderizar componentes de interfaz de usuario nativos con React Native, cómo crear hermosas interfaces de usuario, cómo comunicarse con un servidor y cómo probar una aplicación React Native.
 **1.** Introducción a React Native.
 **2.** Conceptos básicos de React Native.
