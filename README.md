@@ -80,7 +80,7 @@ En esta parte, aprenderemos cómo compilar Android nativo y aplicaciones móvile
 **3.** Comunicándose con el servidor.
 **4.** Probar y ampliar la aplicación.
 
-**Parte 11:** [CI/CD.](https://github.com/thiago-laurence/full-stack-open/tree/main/part11/part11)
+**Parte 11:** [CI/CD.](https://github.com/thiago-laurence/full-stack-open-pokedex)
 Entonces, tienes una nueva característica lista para ser enviada. ¿Qué sucede después? ¿Subes archivos a un servidor manualmente? ¿Cómo gestionas la versión de tu producto que se ejecuta en el mercado? ¿Cómo te aseguras de que funcione y vuelves a una versión segura si no lo hace?
 Hacer todo lo anterior de forma manual es una molestia y no es escalable para un equipo más grande. Es por eso que tenemos sistemas de Integración Continua/Entrega Continua, en resumen, sistemas CI/CD. En esta parte, comprenderás por qué deberías usar un sistema CI/CD, qué puede hacer uno por ti y cómo comenzar a usar GitHub Actions, que está disponible para todos los usuarios de GitHub de forma predeterminada.
 Este módulo fue creado por el equipo de ingeniería de Smartly.io. En Smartly.io, automatizamos cada paso de la publicidad social para desbloquear un mayor rendimiento y creatividad. Hacemos que cada día de publicidad sea fácil, efectivo y agradable para más de 650 marcas en todo el mundo, incluidas eBay, Uber y Zalando. Somos uno de los primeros en adoptar GitHub Actions en su uso en producción a gran escala. Colaboradores: Anna Osipova, Anton Rautio, Mircea Halmagiu, Tomi Hiltunen.
@@ -90,7 +90,7 @@ Este módulo fue creado por el equipo de ingeniería de Smartly.io. En Smartly.i
 **4.** Manteniéndose verde.
 **5.** Expandiendo aún más.
 
-**Parte 12:** [Contenedores.](https://github.com/thiago-laurence/full-stack-open/tree/main/part12/part12)
+**Parte 12:** [Contenedores.](https://github.com/thiago-laurence/full-stack-open/tree/main/part12/part12-containers-applications/todo-app)
 En esta parte, aprenderemos como empaquetar el código en unidades de software estandarizadas llamadas contenedores. Estos contenedores pueden ayudarnos a desarrollar software más rápido y fácil que antes. Durante el camino exploraremos un punto de vista completamente nuevo del desarrollo web, alejado de los ya familiares Node.js y React.
 Utilizaremos contenedores para crear entornos de ejecución inmutables para nuestros proyectos de Node.js y React. Los contenedores también simplifican la inclusión de múltiples servicios en nuestros proyectos. Con su flexibilidad, exploraremos y experimentaremos con muchas herramientas populares al utilizar los contenedores.
 Esta sección ha sido creada por Jami Kousa en colaboración con el equipo Services Fundation de Unity radicado en Helsinki. El equipo Services Fundation trabaja como proveedor de plataformas para el resto de los equipos de Unity en su misión de construir excelentes servicios para sus clientes. El equipo está enfocado en mejorar la experiencia de los desarrolladores de Unity y trabaja en herramientas como el Unity Dashboard, el Unity Editor y Unity.com.
