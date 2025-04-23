@@ -1,6 +1,30 @@
 # Full stack open
 #### Universidad de Helsinki - The Finnish Houston Inc.
+
+<div align="center" style="margin-bottom: 20px;">
+    <div align="center">
+        <img src="https://tukuz.com/wp-content/uploads/2020/05/university-of-helsinki-logo-vector.png" alt="University of Helsinki" width="200">
+    </div>
+</div>
+
 > _"¡Aprende React, Redux, Node.js, MongoDB, GraphQL y TypeScript de una sola vez! Este curso te presentará el desarrollo web moderno basado en JavaScript. El enfoque principal es crear aplicaciones de una sola página con ReactJS que usan REST API creadas con Node.js."_
+
+<div align="center" style="margin-top: 15px; margin-bottom: 15px;">
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" height="40" alt="html5 logo"  />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" height="40" alt="javascript logo"  />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" height="40" alt="typescript logo"  />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" height="40" alt="react logo"  />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg" height="40" alt="nodejs logo"  />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original.svg" height="40" alt="express logo"  />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" height="40" alt="mysql logo"  />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" height="40" alt="mongodb logo"  />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" height="40" alt="redis logo"  />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" height="40" alt="docker logo"  />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/playwright/playwright-original.svg" height="40" alt="playwright logo"  />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cypressio/cypressio-original.svg" height="40" alt="cypressio logo"  />
+    <img src="https://velog.velcdn.com/images/junhok82/post/eaedbeb1-1208-41b2-9f69-117c1d1ead50/rest.png" height="40" alt="rest logo"  />
+    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg" height="40" alt="graphql logo"  />
+</div>
 
 **Parte 1:** [Introducción a React.](https://github.com/thiago-laurence/full-stack-open/tree/main/part1/part1)
 En esta parte, nos familiarizaremos con la librería React, que usaremos para escribir el código que se ejecuta en el navegador. También veremos algunas características de JavaScript que son importantes para comprender React.
